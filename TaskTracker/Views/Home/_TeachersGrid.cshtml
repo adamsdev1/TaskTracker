@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Teacher>
+
+@{ 
+    var grid = Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.DateTimeInLocalTime.GetValueOrDefault(new DateTime()).ToString("MM/dd/yyyy")).Titled("Date Added");
+            columns.Add().RenderedAs(x => Html.Raw("<a class='btn btn-sm btn-round btn-warning' href='Home/Details?teacherId=" + x.TeacherId + "'><i class='fa-list font-size-14'></i></a>")).Titled("Details");
+        })
+        .Empty("No data found")
+        .Sortable()
+        .Filterable()
+        .Pageable(pager =>
+        {
+            pager.ShowPageSizes = false;
+            pager.PagesToDisplay = 5;
+            pager.RowsPerPage = 10;
+        })
+        .UsingUrl(Url.Action("Index", "Home"))
+        .Css("table table-hover")
+        .RowAttributed(model => new { @class = "pointer-hover grid-row", teacherId = model.TeacherId });
+
+}
+@grid
+

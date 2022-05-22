@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Teacher>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <a class="btn btn-info btn-round btn-sm float-right" asp-action="AddTeacher" asp-controller="Home" style="color:white;"><i class="fa fa-circle-thin"></i> Add New Item</a>
+            <h4 class="card-title mt-0">
+                Template Application
+            </h4>
+        </div>
+        <div class="card-body" id="gird">
+            <partial name="_TeachersGrid" model="Model" />
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) { new MvcGrid(element); });
+</script>
+}
