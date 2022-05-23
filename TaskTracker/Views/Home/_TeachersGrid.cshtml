@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Teacher>
+﻿@*@model IEnumerable<Teacher>
 
 @{ 
     var grid = Html
@@ -22,5 +22,5 @@
         .RowAttributed(model => new { @class = "pointer-hover grid-row", teacherId = model.TeacherId });
 
 }
-@grid
+@grid*@
 

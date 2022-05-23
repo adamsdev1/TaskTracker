@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,8 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Template.Models;
-using Template.Services;
+using TaskTracker.Models;
 
 namespace Template
 {
@@ -28,12 +28,14 @@ namespace Template
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<TemplateContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("TemplateConnection")),
+            services.AddDbContext<TaskTrackerContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("TrackerConnection")),
                 ServiceLifetime.Scoped);
 
+            // acces the current windows authenticated user 
+            services.AddHttpContextAccessor();
+
             // Register Services 
-            services.AddScoped<TeacherService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
