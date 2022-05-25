@@ -5,6 +5,6 @@
 
 
 /.vs
-/TaskTracker/.vs
-/TaskTracker/bin/Debug/net5.0
-/TaskTracker/obj
+/TaskTrackerApp/.vs
+/TaskTrackerApp/bin/Debug/net5.0
+/TaskTrackerApp/obj
