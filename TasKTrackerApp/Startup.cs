@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TasKTrackerApp.Data;
+using TasKTrackerApp.Models;
 
 namespace TasKTrackerApp
 {
@@ -29,9 +30,24 @@ namespace TasKTrackerApp
             services.AddRazorPages();
 
             // Database Connections
-            services.AddDbContext<ApplicationUserContext>(options =>
+            services.AddDbContext<AppDBContext>(options =>
                      options.UseSqlServer(
-                         Configuration.GetConnectionString("ApplicationUserContextConnection")));
+                         Configuration.GetConnectionString("AppDBContextConnection")));
+
+
+            // Register Identity Services
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+
+            });
+
+            //services.AddDbContext<TaskTrackerContext>(options =>
+            //       options.UseSqlServer(
+            //           Configuration.GetConnectionString("TaskTrackerContextConnection")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
