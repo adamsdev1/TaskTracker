@@ -7,9 +7,13 @@ namespace TasKTrackerApp.Models
     {
         private readonly DbContextOptions _options;
 
-        public AppDBContext(DbContextOptions options) : base(options)
+        //public AppDBContext(DbContextOptions options) : base(options)
+        //{
+        //    _options = options;
+        //}
+
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
-            _options = options;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

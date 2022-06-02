@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TasKTrackerApp.Models;
+using TasKTrackerApp.Services;
 
 namespace TasKTrackerApp
 {
@@ -30,23 +31,29 @@ namespace TasKTrackerApp
             services.AddRazorPages();
 
             // Database Connections
+
+            // Identity Database Contest
             services.AddDbContext<AppDBContext>(options =>
                      options.UseSqlServer(
                          Configuration.GetConnectionString("AppDBContextConnection")));
 
+            // Task Tracker Database Context
+            services.AddDbContext<TaskTrackerContext>(options =>
+                   options.UseSqlServer(
+                       Configuration.GetConnectionString("TaskTrackerContextConnection")));
 
             // Register Identity Services
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+
+            // Register Services
+            services.AddScoped<AccountService>();
+
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
 
             });
-
-            //services.AddDbContext<TaskTrackerContext>(options =>
-            //       options.UseSqlServer(
-            //           Configuration.GetConnectionString("TaskTrackerContextConnection")));
 
         }
 

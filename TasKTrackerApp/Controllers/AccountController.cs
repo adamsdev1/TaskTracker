@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TasKTrackerApp.ViewModels.Account;
+using TasKTrackerApp.Services;
+using System.Security.Claims;
 
 namespace TasKTrackerApp.Controllers
 {
@@ -10,12 +12,15 @@ namespace TasKTrackerApp.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private AccountService _accountService;
 
         public AccountController(UserManager<IdentityUser> userManager,
-                              SignInManager<IdentityUser> signInManager)
+                              SignInManager<IdentityUser> signInManager,
+                              AccountService accountService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _accountService = accountService;
         }
 
         public IActionResult Register()
@@ -38,6 +43,10 @@ namespace TasKTrackerApp.Controllers
 
                 if (result.Succeeded)
                 {
+                    // Setup unique user claim to pair Net.Core Identity User to TaskTracker User
+                    string uniqueUser = AccountService.RegisterLocalUser(model);
+                    //await _userManager.AddClaimAsync(user.Id, new Claim("Config", uniqueUser));
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction("index", "Home");
